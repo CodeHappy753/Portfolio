@@ -23,6 +23,7 @@
 /* ===== Base ===== */
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 80px;
 }
 
 body {
@@ -42,8 +43,36 @@ p + p {
   margin-top: 16px;
 }
 
+/* ===== Scrollbars ===== */
+/* Chrome, Edge, Safari */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #8b5cf6, #3b82f6);
+  border-radius: 999px;
+  border: 2px solid var(--bg);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #a78bfa, #60a5fa);
+}
+
+/* Firefox: only gets basic colors */
+@supports not selector(::-webkit-scrollbar) {
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent) var(--bg);
+  }
+}
+
 /* keep everything centered */
-header,
 main,
 footer {
   max-width: 1000px;
@@ -53,14 +82,37 @@ footer {
 
 /* ===== Nav ===== */
 header {
-  border-bottom: 2px solid transparent;
-  border-image: var(--gradient) 1;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--bg);
+}
+
+/* moving gradient line, same speed as the avatar ring */
+header::after {
+  content: "";
+  display: block;
+  height: 2px;
+  background: linear-gradient(90deg, #8b5cf6, #3b82f6, #f97316, #facc15, #8b5cf6);
+  background-size: 200% 100%;
+  animation: slide 6s linear infinite;
+}
+
+@keyframes slide {
+  from {
+    background-position: 0% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
 }
 
 nav {
   display: flex;
   gap: 24px;
-  padding: 24px 0;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 24px;
 }
 
 nav a {
@@ -126,6 +178,18 @@ h2::before {
   color: var(--text);
 }
 
+/* button row */
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.actions .button {
+  margin: 0;
+}
+
 /* ===== Hero ===== */
 #hero {
   display: grid;
@@ -143,30 +207,37 @@ h2::before {
   color: transparent;
 }
 
+/* photo with a spinning gradient ring */
 .avatar {
+  position: relative;
   width: 200px;
   height: 200px;
   border-radius: 50%;
   padding: 4px;
-  background: var(--gradient);
 }
 
-.avatar span {
-  display: grid;
-  place-items: center;
-  width: 100%;
-  height: 100%;
+.avatar::before {
+  content: "";
+  position: absolute;
+  inset: 0;
   border-radius: 50%;
-  background: var(--surface);
-  font-size: 3.5rem;
-  font-weight: 700;
+  background: conic-gradient(#8b5cf6, #3b82f6, #f97316, #facc15, #8b5cf6);
+  animation: spin 6s linear infinite;
 }
 
 .avatar img {
+  position: relative;
   width: 100%;
   height: 100%;
   border-radius: 50%;
   object-fit: cover;
+  border: 4px solid var(--bg);
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* ===== Status lights ===== */
@@ -264,6 +335,7 @@ h2::before {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 24px;
+  margin-top: 32px;
 }
 
 .card {
@@ -283,7 +355,7 @@ h2::before {
 
 /* top strip - swap for screenshots later */
 .preview {
-  height: 120px;
+  height: 160px;
   margin: -24px -24px 20px;
   border-bottom: 1px solid var(--border);
 }
@@ -295,9 +367,12 @@ h2::before {
     var(--bg);
 }
 
-.preview.vyb {
-  background: var(--gradient);
-  opacity: 0.85;
+/* screenshot version of the strip */
+img.preview {
+  width: calc(100% + 48px);
+  max-width: none;
+  object-fit: cover;
+  object-position: top;
 }
 
 /* status badge, top right */
@@ -314,6 +389,17 @@ h2::before {
   border: 1px solid var(--border);
   font-family: "JetBrains Mono", monospace;
   font-size: 0.75rem;
+}
+
+/* ===== Tablet + phone: stack the hero ===== */
+@media (max-width: 900px) {
+  #hero {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .avatar {
+    justify-self: center;
+  }
 }
 
 /* ===== Tablet ===== */
@@ -347,12 +433,29 @@ h2::before {
     gap: 12px;
   }
 
-  #hero {
-    grid-template-columns: 1fr;
-  }
-
   .avatar {
     width: 140px;
     height: 140px;
+  }
+
+  /* swipe through the buttons */
+  .actions {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-right: 40px;
+    scrollbar-width: none;
+    -webkit-mask-image: linear-gradient(to right, black 85%, transparent);
+    mask-image: linear-gradient(to right, black 85%, transparent);
+  }
+
+  /* hide the scrollbar in Chrome, Safari and Edge */
+  .actions::-webkit-scrollbar {
+    display: none;
+  }
+
+  .actions .button {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
   }
 }
