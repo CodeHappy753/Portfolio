@@ -37,6 +37,11 @@ img {
   display: block;
 }
 
+/* space between paragraphs */
+p + p {
+  margin-top: 16px;
+}
+
 /* keep everything centered */
 header,
 main,
