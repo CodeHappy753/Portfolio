@@ -9,8 +9,8 @@
   --accent: #8b5cf6;    /* purple */
   --gradient: linear-gradient(90deg, #8b5cf6, #3b82f6, #f97316, #facc15);
   --online: #22c55e;    /* green light */
-  --progress: #ef4444;  /* red light */
-  --next: #facc15;      /* yellow light */
+  --progress: #facc15;  /* yellow light */
+  --next: #ef4444;      /* red light */
 }
 
 /* ===== Reset ===== */
