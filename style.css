@@ -1,0 +1,353 @@
+/* ===== Colors ===== */
+/* change these and the whole site updates */
+:root {
+  --bg: #121214;
+  --surface: #1b1b20;   /* cards + tags */
+  --border: #2a2a32;
+  --text: #ececf1;
+  --muted: #9b9ba8;
+  --accent: #8b5cf6;    /* purple */
+  --gradient: linear-gradient(90deg, #8b5cf6, #3b82f6, #f97316, #facc15);
+  --online: #22c55e;    /* green light */
+  --progress: #ef4444;  /* red light */
+  --next: #facc15;      /* yellow light */
+}
+
+/* ===== Reset ===== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ===== Base ===== */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Inter", system-ui, sans-serif;
+  color: var(--text);
+  background: var(--bg);
+  line-height: 1.6;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* keep everything centered */
+header,
+main,
+footer {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ===== Nav ===== */
+header {
+  border-bottom: 2px solid transparent;
+  border-image: var(--gradient) 1;
+}
+
+nav {
+  display: flex;
+  gap: 24px;
+  padding: 24px 0;
+}
+
+nav a {
+  color: var(--muted);
+  text-decoration: none;
+}
+
+nav a:hover {
+  color: var(--text);
+}
+
+/* ===== Headings + text ===== */
+section {
+  padding: 72px 0;
+}
+
+h1 {
+  font-size: 3.2rem;
+  line-height: 1.1;
+}
+
+h2 {
+  margin-bottom: 20px;
+}
+
+/* the // before section titles */
+h2::before {
+  content: "// ";
+  color: var(--accent);
+  font-family: "JetBrains Mono", monospace;
+}
+
+.title {
+  color: var(--muted);
+  font-size: 1.25rem;
+}
+
+.tagline {
+  max-width: 560px;
+  color: var(--muted);
+  margin-top: 16px;
+}
+
+/* ===== Buttons ===== */
+.button {
+  display: inline-block;
+  margin: 20px 8px 0 0;
+  padding: 10px 20px;
+  border-radius: 8px;
+  background: var(--accent);
+  color: white;
+  text-decoration: none;
+}
+
+.button:hover {
+  filter: brightness(1.15);
+}
+
+/* outline version */
+.button.ghost {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+
+/* ===== Hero ===== */
+#hero {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 40px;
+  min-height: 80vh;
+}
+
+/* gradient on my name */
+.name {
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.avatar {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  padding: 4px;
+  background: var(--gradient);
+}
+
+.avatar span {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: var(--surface);
+  font-size: 3.5rem;
+  font-weight: 700;
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* ===== Status lights ===== */
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+  color: var(--muted);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.85rem;
+}
+
+.dot {
+  --light: var(--online);
+  position: relative;
+  flex-shrink: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--light);
+  box-shadow: 0 0 8px var(--light);
+}
+
+/* pulse ring */
+.dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--light);
+  animation: glow 1.8s ease-out infinite;
+}
+
+.dot.live {
+  --light: var(--online);
+}
+
+.dot.progress {
+  --light: var(--progress);
+}
+
+.dot.next {
+  --light: var(--next);
+}
+
+@keyframes glow {
+  from {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+  to {
+    transform: scale(2.6);
+    opacity: 0;
+  }
+}
+
+/* ===== Skills ===== */
+#skills ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  list-style: none;
+}
+
+#skills li {
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.85rem;
+}
+
+/* ===== Experience ===== */
+.job {
+  border-left: 2px solid var(--border);
+  padding-left: 20px;
+  margin-bottom: 28px;
+}
+
+.job ul {
+  margin: 8px 0 0 18px;
+  color: var(--muted);
+}
+
+.dates {
+  color: var(--muted);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.85rem;
+}
+
+/* ===== Projects ===== */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.card {
+  position: relative;
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+  transition: transform 0.2s, border-color 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent);
+}
+
+/* top strip - swap for screenshots later */
+.preview {
+  height: 120px;
+  margin: -24px -24px 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.preview.grid {
+  background:
+    linear-gradient(var(--border) 1px, transparent 1px) 0 0 / 24px 24px,
+    linear-gradient(90deg, var(--border) 1px, transparent 1px) 0 0 / 24px 24px,
+    var(--bg);
+}
+
+.preview.vyb {
+  background: var(--gradient);
+  opacity: 0.85;
+}
+
+/* status badge, top right */
+.badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(18, 18, 20, 0.85);
+  border: 1px solid var(--border);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.75rem;
+}
+
+/* ===== Tablet ===== */
+@media (min-width: 601px) and (max-width: 900px) {
+  h1 {
+    font-size: 2.7rem;
+  }
+
+  section {
+    padding: 56px 0;
+  }
+
+  #hero {
+    gap: 24px;
+  }
+
+  .avatar {
+    width: 160px;
+    height: 160px;
+  }
+}
+
+/* ===== Phone ===== */
+@media (max-width: 600px) {
+  h1 {
+    font-size: 2.3rem;
+  }
+
+  nav {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  #hero {
+    grid-template-columns: 1fr;
+  }
+
+  .avatar {
+    width: 140px;
+    height: 140px;
+  }
+}
